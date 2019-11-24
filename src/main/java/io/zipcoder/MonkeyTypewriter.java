@@ -1,5 +1,7 @@
 package io.zipcoder;
 
+import java.util.Random;
+
 public class MonkeyTypewriter {
     public static void main(String[] args) {
         String introduction = "It was the best of times,\n" +
@@ -22,6 +24,24 @@ public class MonkeyTypewriter {
 
         // Do all of the Monkey / Thread building here
         // For each Copier(one safe and one unsafe), create and start 5 monkeys copying the introduction to
+        Thread[] unsafeThreads = new Thread[5];
+        UnsafeCopier unsafeCopier = new UnsafeCopier(introduction);
+        for (int i = 0; i < 5; i++) {
+            unsafeThreads[i] = new Thread(unsafeCopier);
+        }
+        for (int i = 0; i < unsafeThreads.length; i++) {
+            unsafeThreads[i].start();
+        }
+
+        Thread[] safeThreads = new Thread[5];
+        SafeCopier safeCopier = new SafeCopier(introduction);
+        for (int i = 0; i < 5; i++) {
+            safeThreads[i] = new Thread(safeCopier);
+        }
+        for (int i = 0; i < safeThreads.length; i++) {
+            safeThreads[i].start();
+        }
+
         // A Tale Of Two Cities.
 
 
@@ -34,5 +54,7 @@ public class MonkeyTypewriter {
         }
 
         // Print out the copied versions here.
+        System.out.println("Unsafe:\n" + unsafeCopier.copied);
+        System.out.println("Safe:\n" + safeCopier.copied);
     }
 }

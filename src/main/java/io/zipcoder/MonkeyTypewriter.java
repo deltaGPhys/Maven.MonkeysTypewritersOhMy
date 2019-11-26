@@ -3,7 +3,7 @@ package io.zipcoder;
 import java.util.Random;
 
 public class MonkeyTypewriter {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         String introduction = "It was the best of times,\n" +
                 "it was the blurst of times,\n" +
                 "it was the age of wisdom,\n" +
@@ -40,6 +40,10 @@ public class MonkeyTypewriter {
         }
         for (int i = 0; i < safeThreads.length; i++) {
             safeThreads[i].start();
+        }
+
+        for (int i = 0; i < safeThreads.length; i++) {
+            safeThreads[i].join();
         }
 
         // A Tale Of Two Cities.

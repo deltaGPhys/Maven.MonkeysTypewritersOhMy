@@ -19,18 +19,31 @@ public class SafeCopier extends Copier{
         String nextWord = "";
 
         try {
+            //lock.lock();
             while (this.stringIterator.hasNext()) {
-                lock.lock();
-                nextWord = this.stringIterator.next() + " ";
-                Thread.sleep(new Random().nextInt(20));
-                this.copied += nextWord;
+
+//                nextWord = this.stringIterator.next() + " ";
+//                Thread.sleep(new Random().nextInt(20));
+//                this.copied += nextWord;
+                getWord();
+
             }
 
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            lock.unlock();
+            //lock.unlock();
+        }
+
+    }
+
+    private synchronized void getWord() throws InterruptedException {
+        if (this.stringIterator.hasNext()) {
+            String nextWord = this.stringIterator.next() + " ";
+            Thread.sleep(new Random().nextInt(50));
+            System.out.println(Thread.currentThread().getName());
+            this.copied += nextWord;
         }
     }
 }

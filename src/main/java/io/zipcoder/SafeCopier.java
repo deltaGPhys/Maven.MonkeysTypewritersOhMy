@@ -17,9 +17,10 @@ public class SafeCopier extends Copier{
 
     public void run() {
         String nextWord = "";
-        lock.lock();
+
         try {
             while (this.stringIterator.hasNext()) {
+                lock.lock();
                 nextWord = this.stringIterator.next() + " ";
                 Thread.sleep(new Random().nextInt(20));
                 this.copied += nextWord;
